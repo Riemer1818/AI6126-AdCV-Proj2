@@ -1,0 +1,10 @@
+
+
+data/*
+
+*.err
+*.out
+
+report/*.aux
+report/*.out
+report/*.log
