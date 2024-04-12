@@ -1,0 +1,91 @@
+\documentclass{article}
+
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{textcomp}
+\usepackage{listings} 
+
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Theorem,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{theorem}
+\tcolorboxenvironment{theorem}{colback=LightGray}
+
+\declaretheoremstyle[name=Proposition,]{prosty}
+\declaretheorem[style=prosty,numberlike=theorem]{proposition}
+\tcolorboxenvironment{proposition}{colback=LightOrange}
+
+\declaretheoremstyle[name=Principle,]{prcpsty}
+\declaretheorem[style=prcpsty,numberlike=theorem]{principle}
+\tcolorboxenvironment{principle}{colback=LightGreen}
+
+\setstretch{1.2}
+\geometry{
+    textheight=9in,
+    textwidth=5.5in,
+    top=1in,
+    headheight=12pt,
+    headsep=25pt,
+    footskip=30pt
+}
+
+\begin{document}
+
+% ====== TITLE PAGE ======
+\title{ \normalsize \textsc{}
+		\\ [2.0cm]
+		\HRule{1.5pt} \\
+		\LARGE \textbf{\uppercase{[Project Title]}
+		\HRule{2.0pt} \\ [0.6cm] \LARGE{[Course code : course title]} \vspace*{5\baselineskip}}
+		}
+\date{[26 April 2023]}
+\author{\textbf{Riemer van der Vliet} \\ 
+    G2304212K}
+
+\maketitle
+
+% notes and stuff
+\newpage
+
+provide 5k HQ images and 400 LQ-HQ image pairs for validation
+
+no LQ images provided during the training. Will need to make these ourselves.
+
+using pipeline1 
+% Training Real-World Blind Super-Resolution with Pure Synthetic Data, ICCVW 202
+
+\newpage
+
+\include{sections/introduction}
+\include{sections/section1}
+
+
+\newpage
+
+% ====== YOUR CONTENT STARTS HERE ======
+\section{Introduction}
+% Introduction text...
+
+\section{References}
+\bibliographystyle{IEEEtran}
+% Include your references here
+
+\section{Appendix}
+% Any additional information
+
+\end{document}
