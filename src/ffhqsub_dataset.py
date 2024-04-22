@@ -36,7 +36,9 @@ class FFHQsubDataset(data.Dataset):
         super(FFHQsubDataset, self).__init__()
         self.opt = opt
         self.file_client = None
-        self.io_backend_opt = opt['io_backend']
+        # self.io_backend_opt = opt['io_backend']
+        self.io_backend_opt = opt.get('io_backend', {'type': 'disk'})
+
         self.gt_folder = opt['dataroot_gt']
 
         # file client (lmdb io backend)
@@ -45,6 +47,7 @@ class FFHQsubDataset(data.Dataset):
             self.io_backend_opt['client_keys'] = ['gt']
             if not self.gt_folder.endswith('.lmdb'):
                 raise ValueError(f"'dataroot_gt' should end with '.lmdb', but received {self.gt_folder}")
+            
             with open(osp.join(self.gt_folder, 'meta_info.txt')) as fin:
                 self.paths = [line.split('.')[0] for line in fin]
         else:
@@ -191,3 +194,4 @@ class FFHQsubDataset(data.Dataset):
 
     def __len__(self):
         return len(self.paths)
+

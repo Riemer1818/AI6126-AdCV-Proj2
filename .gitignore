@@ -1,10 +1,9 @@
 
 
 data/*
+datasets/* 
 
 *.err
 *.out
-
-report/*.aux
-report/*.out
-report/*.log
+*.aux
+*.log

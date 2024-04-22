@@ -1,0 +1,14 @@
+name: AI6126-AdCV-Proj2
+dependencies:
+  - python=3.8
+  - pip
+  - pytorch
+  - torchvision=0.15.2
+  - pip:
+    - numpy
+    - pillow
+    - opencv-python
+    - torch
+    - basicsr
+    - scikit-learn
+    - matplotlib
