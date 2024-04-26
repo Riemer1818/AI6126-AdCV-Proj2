@@ -1,10 +1,10 @@
-\section{Other Models}
-\label{sec:otherModels} % Label for referencing
+\section{Models}
+\label{sec:Models}% Label for referencing
 
 This section presents an overview of other influential models and techniques in the field of super-resolution, particularly focusing on the innovations brought by BasicSR and Real-ESRGAN. These techniques offer alternative methods to achieve high-quality image super-resolution.
 
 \subsection{Techniques from BasicSR}
-\label{subsec:BasicSR} % Label for referencing
+\label{subsec:BasicSR}% Label for referencing
 
 BasicSR introduces several key techniques that enhance the quality of super-resolution outputs:
 
@@ -15,7 +15,7 @@ BasicSR introduces several key techniques that enhance the quality of super-reso
 \end{itemize}
 
 \subsection{Techniques from Real-ESRGAN}
-\label{subsec:Real-ESRGAN} % Label for referencing
+\label{subsec:Real-ESRGAN}% Label for referencing
 
 Real-ESRGAN advances super-resolution through several sophisticated architectural improvements:
 
@@ -26,3 +26,25 @@ Real-ESRGAN advances super-resolution through several sophisticated architectura
 \end{itemize}
 
 It is crucial to recognize that in super-resolution, the highest scores are often achieved not by merely producing visually appealing images but by optimizing for metrics such as the Peak Signal-to-Noise Ratio (PSNR). This metric critically influences model performance evaluation in this domain.
+
+\subsection{Model type: RealESRNetModel}
+\label{sec:modelImplementation}% Label for referencing
+
+\subsubsection{Network Structure}
+\begin{itemize}
+    \item Type: MSRResNet
+    \item Input channels: 3
+    \item Output channels: 3
+    \item Features: 64
+    \item Number of blocks: 16
+    \item Upscaling factor: 4
+\end{itemize}
+
+\subsubsection{Training Settings}
+\begin{itemize}
+    \item Total iterations: 115,000
+    \item Optimizer: Adam (learning rate: 2e-4, weight decay: 0)
+    \item Scheduler: Cosine Annealing with restarts
+    \item Loss function: L1 Loss (mean reduction)
+\end{itemize}
+
