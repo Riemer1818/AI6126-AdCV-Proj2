@@ -25,7 +25,7 @@ truth_dir = os.path.join(input_dir, 'ref')
 
 if not os.path.isdir(submit_dir):
     print("%s doesn't exist" % submit_dir)
-
+    
 if os.path.isdir(submit_dir) and os.path.isdir(truth_dir):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)

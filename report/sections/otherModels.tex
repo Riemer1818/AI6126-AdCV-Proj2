@@ -1,0 +1,28 @@
+\section{Other Models}
+\label{sec:otherModels} % Label for referencing
+
+This section presents an overview of other influential models and techniques in the field of super-resolution, particularly focusing on the innovations brought by BasicSR and Real-ESRGAN. These techniques offer alternative methods to achieve high-quality image super-resolution.
+
+\subsection{Techniques from BasicSR}
+\label{subsec:BasicSR} % Label for referencing
+
+BasicSR introduces several key techniques that enhance the quality of super-resolution outputs:
+
+\begin{itemize}
+    \item \textbf{SRResNet:} This baseline architecture utilizes residual blocks to achieve effective super-resolution without extensive computational costs.
+    \item \textbf{Perceptual Loss:} Unlike traditional loss functions like MSE, BasicSR employs perceptual loss that uses pretrained neural networks (e.g., VGG) to assess perceptual similarity between images, which often leads to more visually pleasing results.
+    \item \textbf{Feature Fusion:} This technique allows the model to integrate and leverage information from multiple scales or network branches, enhancing the detail and quality of the upsampled images.
+\end{itemize}
+
+\subsection{Techniques from Real-ESRGAN}
+\label{subsec:Real-ESRGAN} % Label for referencing
+
+Real-ESRGAN advances super-resolution through several sophisticated architectural improvements:
+
+\begin{itemize}
+    \item \textbf{Enhanced Residual Dense Network (ERDN):} This architecture combines the strengths of residual and dense networks to improve image detail and texture in super-resolution tasks.
+    \item \textbf{Adaptive Instance Normalization (AdaIN):} Used within the network, AdaIN adjusts the style of features dynamically, contributing to the flexibility and effectiveness of the super-resolution process.
+    \item \textbf{Attention Mechanisms:} By incorporating attention mechanisms, Real-ESRGAN can focus more on significant regions of the image, thus prioritizing areas that most impact perceptual quality.
+\end{itemize}
+
+It is crucial to recognize that in super-resolution, the highest scores are often achieved not by merely producing visually appealing images but by optimizing for metrics such as the Peak Signal-to-Noise Ratio (PSNR). This metric critically influences model performance evaluation in this domain.
