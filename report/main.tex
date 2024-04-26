@@ -61,17 +61,159 @@
 
 \newpage
 
-\include{sections/introduction}
-\include{sections/otherModels}
-\include{sections/results}
-\include{sections/discussion}
+
+\section{Introduction}
+\label{sec:introduction}
+
+This mini-challenge aims to generate high-quality (HQ) face images from corrupted low-quality (LQ) ones. The data used for this task is sourced from FFHQ. We provide a mini dataset with 5000 HQ images for training and 400 LQ-HQ image pairs for validation.
+
+\subsection{Synthetic Data Generation}
+\label{subsec:synthetic-data-generation}
+
+We generate synthetic data following the methodology described in "Training Real-World Blind Super-Resolution with Pure Synthetic Data" by Wang et al. This process involves degrading HQ images into LQ images using various kernels, as shown in Figure~\ref{fig:kernels}. Each image has a unique kernel generated for it. The pipeline consists of the following steps:
+
+\begin{enumerate}
+    \item \textbf{Initialization}: Load configuration options and paths to ground-truth (GT) images. Initialize the file client based on the configuration.
+    
+    \item \textbf{Get Item}: Retrieve and read the GT image for a given index. Augment the GT image (horizontal flip, rotation).
+    
+    \item \textbf{Generate Kernels}: Select kernel size and type (sinc or mixed) based on probability. Generate and pad the kernel accordingly.
+    
+    \item \textbf{Apply Final Sinc Filter}: Optionally apply a final sinc filter.
+    
+    \item \textbf{Prepare Output}: Convert and format the image and kernels into tensors. Return tensors and the image path.
+\end{enumerate}
+
+\subsection{Evaluation}
+\label{subsec:evaluation}
+
+The final test set consists of 400 LQ images for evaluating model performance. We use the Peak Signal-to-Noise Ratio (PSNR) as the evaluation metric, which is a common measure in image processing to assess image quality. Higher PSNR values indicate better image quality, as shown in Equation~\ref{eq:psnr}:
+
+\begin{equation}
+    \text{PSNR} = 10 \cdot \log_{10} \left( \frac{\text{MAX}_I^2}{\text{MSE}} \right)
+    \label{eq:psnr}
+\end{equation}
+
+
+\section{Models}
+\label{sec:Models}% Label for referencing
+
+This section presents an overview of other influential models and techniques in the field of super-resolution, particularly focusing on the innovations brought by BasicSR and Real-ESRGAN. These techniques offer alternative methods to achieve high-quality image super-resolution.
+
+\subsection{Techniques from BasicSR}
+\label{subsec:BasicSR}% Label for referencing
+
+BasicSR introduces several key techniques that enhance the quality of super-resolution outputs:
+
+\begin{itemize}
+    \item \textbf{SRResNet:} This baseline architecture utilizes residual blocks to achieve effective super-resolution without extensive computational costs.
+    \item \textbf{Perceptual Loss:} Unlike traditional loss functions like MSE, BasicSR employs perceptual loss that uses pretrained neural networks (e.g., VGG) to assess perceptual similarity between images, which often leads to more visually pleasing results.
+    \item \textbf{Feature Fusion:} This technique allows the model to integrate and leverage information from multiple scales or network branches, enhancing the detail and quality of the upsampled images.
+\end{itemize}
+
+\subsection{Techniques from Real-ESRGAN}
+\label{subsec:Real-ESRGAN}% Label for referencing
+
+Real-ESRGAN advances super-resolution through several sophisticated architectural improvements:
+
+\begin{itemize}
+    \item \textbf{Enhanced Residual Dense Network (ERDN):} This architecture combines the strengths of residual and dense networks to improve image detail and texture in super-resolution tasks.
+    \item \textbf{Adaptive Instance Normalization (AdaIN):} Used within the network, AdaIN adjusts the style of features dynamically, contributing to the flexibility and effectiveness of the super-resolution process.
+    \item \textbf{Attention Mechanisms:} By incorporating attention mechanisms, Real-ESRGAN can focus more on significant regions of the image, thus prioritizing areas that most impact perceptual quality.
+\end{itemize}
+
+It is crucial to recognize that in super-resolution, the highest scores are often achieved not by merely producing visually appealing images but by optimizing for metrics such as the Peak Signal-to-Noise Ratio (PSNR). This metric critically influences model performance evaluation in this domain.
+
+\subsection{Model type: RealESRNetModel}
+\label{sec:modelImplementation}% Label for referencing
+
+\subsubsection{Network Structure}
+\begin{itemize}
+    \item Type: MSRResNet
+    \item Input channels: 3
+    \item Output channels: 3
+    \item Features: 64
+    \item Number of blocks: 16
+    \item Upscaling factor: 4
+\end{itemize}
+
+\subsubsection{Training Settings}
+\begin{itemize}
+    \item Total iterations: 115,000
+    \item Optimizer: Adam (learning rate: 2e-4, weight decay: 0)
+    \item Scheduler: Cosine Annealing with restarts
+    \item Loss function: L1 Loss (mean reduction)
+\end{itemize}
+
+
+
+\section{Results}
+\label{sec:results} % Label for referencing
+
+In this mini-challenge, our objective was to generate high-quality (HQ) face images from corrupted low-quality (LQ) ones using the Real-ESRGAN model. Below we present some example outputs along with the loss curves observed during training.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imgs/output_00328.png}
+        \caption{Example of LQ image}
+        \label{fig:image1}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imgs/output_00386.png}
+        \caption{Example of LQ image}
+        \label{fig:image2}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imgs/00328.png}
+        \caption{HQ images generated by Real-ESRGAN.}
+        \label{fig:image3}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imgs/00386.png}
+        \caption{HQ images generated by Real-ESRGAN.}
+        \label{fig:image4}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imgs/losses.png}
+    \caption{Training loss curves over 115,000 iterations.}
+    \label{fig:image5}
+\end{figure}
+
+These results were achieved after training the model on the NTU GPU cluster using an A40 GPU for 115,000 iterations—the maximum allowed training duration. The model reached a Peak Signal-to-Noise Ratio (PSNR) score of $26.40953$ in the blind test, demonstrating the effectiveness of the Real-ESRGAN model in enhancing image quality from LQ inputs. Detailed settings used during the training are provided in the appendix.
+
+\section{Discussion}
+\label{sec:Discussion} % Label for referencing
+
+This project brings to light the delicate balance required in super-resolution between optimizing for human visual preferences and computational metrics. While human observers prioritize perceptual and semantic details, computational models tend to focus on precise pixel-based evaluations.
+
+The use of Generative Adversarial Networks (GANs) equipped with perceptual loss functions is a promising approach to reconcile these perspectives. Perceptual loss allows for the generation of images that are more visually pleasing to humans by mimicking the way human vision processes images. However, this often results in lower Peak Signal-to-Noise Ratio (PSNR) scores, as the focus shifts from exact pixel accuracy to more qualitative aspects of image quality.
+
+Despite the potential benefits of perceptual loss, it was not utilized in this experiment due to constraints on using external data. Understanding that the highest PSNR scores do not always correlate with the most visually appealing images is crucial. 
+
+
+% \include{sections/introduction}
+% \include{sections/otherModels}
+% \include{sections/results}
+% \include{sections/discussion}
 
 \section{References}
 
-Please find the git repository for this project~\href{https://github.com/Riemer1818/AI6126-AdCV-Proj2}{AI6126-AdCV-Proj2}
+\noindent Please find the git repository for this project~\href{https://github.com/Riemer1818/AI6126-AdCV-Proj2}{AI6126-AdCV-Proj2}
 
-Please find the git repository for REAL-ESRGAN~\href{https://github.com/xinntao/Real-ESRGAN}{Real-ESRGAN}
+\noindent Please find the git repository for REAL-ESRGAN~\href{https://github.com/xinntao/Real-ESRGAN}{Real-ESRGAN}
 
-Please find the git repository for BasicSR~\href{https://github.com/XPixelGroup/BasicSR}{BasicSR}
+\noindent  Please find the git repository for BasicSR~\href{https://github.com/XPixelGroup/BasicSR}{BasicSR}
 
 \end{document}
